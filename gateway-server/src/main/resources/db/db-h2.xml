@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://mybatis.org/schema/mybatis-spring
+                        http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <mybatis:scan base-package="com.geekfoxer.gateway.dao.dao" factory-ref="sqlSessionFactory"/>
+
+    <!-- 创建SqlSessionFactory -->
+    <bean id="sqlSessionFactory" name="sqlSessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean" primary="true">
+        <property name="dataSource" ref="h2DataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" primary="true">
+        <property name="dataSource" ref="h2DataSource" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+
+    <bean id="h2DataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close" primary="true">
+        <property name="url" value="jdbc:h2:~/gateway" />
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <!--<property name="username" value="${fruit_db_username}" />-->
+        <!--<property name="password" value="${fruit_db_password}" />-->
+        <!--<property name="initialSize" value="${jdbc_initialPoolSize}" />-->
+        <!--<property name="minIdle" value="${jdbc_minPoolSize}" />-->
+        <!--<property name="maxActive" value="${jdbc_maxPoolSize}" />-->
+        <property name="validationQuery" value="select count(1)" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="connectProperties">
+            <props>
+                <prop key="druid.stat.logSlowSql">true</prop>
+            </props>
+        </property>
+        <!--<property name="proxyFilters">-->
+            <!--<list>-->
+                <!--<ref bean="stat-filter" />-->
+            <!--</list>-->
+        <!--</property>-->
+    </bean>
+
+    <!--<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">-->
+        <!--<property name="slowSqlMillis" value="${druid_slowSqlMillis}" />-->
+        <!--<property name="logSlowSql" value="${druid_logSlowSql}" />-->
+        <!--<property name="mergeSql" value="${druid_mergeSql}" />-->
+    <!--</bean>-->
+
+</beans>

@@ -1,0 +1,45 @@
+
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>bin-release</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>${project.build.finalName}-bin-release</baseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>../</directory>
+            <includes>
+                <include>DISCLAIMER</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/licenses</directory>
+            <outputDirectory>licenses</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src</directory>
+            <includes>
+                <include>LICENSE</include>
+                <include>NOTICE</include>
+            </includes>
+            <outputDirectory></outputDirectory>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>target/dubbo-admin-${project.version}.jar</source>
+            <outputDirectory></outputDirectory>
+        </file>
+        <file>
+            <source>../dubbo-admin-server/src/main/resources/application.properties</source>
+            <outputDirectory></outputDirectory>
+        </file>
+        <file>
+            <source>README.md</source>
+            <outputDirectory></outputDirectory>
+        </file>
+    </files>
+
+</assembly>
