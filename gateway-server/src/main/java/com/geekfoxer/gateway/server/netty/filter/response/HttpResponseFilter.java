@@ -8,13 +8,13 @@ import io.netty.handler.codec.http.HttpResponse;
 
 public abstract class HttpResponseFilter extends AbstractCommonFilter {
 
-  public abstract HttpResponse doFilter(NettyHttpServletRequest servletRequest,
-                                        HttpResponse httpResponse);
+    public abstract HttpResponse doFilter(NettyHttpServletRequest servletRequest,
+                                          HttpResponse httpResponse);
 
-  public abstract ResponseFilterTypeEnum filterType();
+    public abstract ResponseFilterTypeEnum filterType();
 
-  @Override
-  public String filterName() {
-    return filterType().name();
-  }
+    @Override
+    public String filterName() {
+        return filterType().name();
+    }
 }

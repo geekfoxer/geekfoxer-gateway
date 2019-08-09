@@ -1,7 +1,9 @@
 package com.geekfoxer.gateway.ops.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.geekfoxer.gateway.ops.domain.PageDO;
+import com.geekfoxer.gateway.common.TranserUtil;
 import com.geekfoxer.gateway.ops.req.TestApiQuery;
 import com.geekfoxer.gateway.ops.resp.PageResult;
 import com.geekfoxer.gateway.ops.resp.RespBean;
@@ -9,7 +11,8 @@ import com.geekfoxer.gateway.ops.service.ApiService;
 import com.geekfoxer.gateway.ops.utils.FileType;
 import com.geekfoxer.gateway.ops.utils.Query;
 import com.geekfoxer.gateway.ops.vo.ApiVo;
-import lombok.extern.java.Log;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import net.dongliu.requests.RequestBuilder;
 import net.dongliu.requests.Requests;
@@ -22,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,9 +75,9 @@ public class ApiController {
 
 
     @PostMapping("test")
-    public RespBean testApi(TestApiQuery testApiQuery) {
+    public String testApi(TestApiQuery testApiQuery) {
 
-        String url = "http://127.0.0.1:8899" + testApiQuery.getUri();
+        String url = "http://127.0.0.1:8899/" + testApiQuery.getUri();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -87,11 +88,13 @@ public class ApiController {
             requestBuilder.body(testApiQuery.getJsonBody())
                     .headers(headers);
         }
+        // 获取参数
         String s = requestBuilder
+                .timeout(300000, 5000000)
                 .send()
                 .readToText();
-
-        return RespBean.okData(s);
+        log.info("【测试API接口获取到的数据】: {}", s);
+        return s;
     }
 
     @PostMapping("/remove")

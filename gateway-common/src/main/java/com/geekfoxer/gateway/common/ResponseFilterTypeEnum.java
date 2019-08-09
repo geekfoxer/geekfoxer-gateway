@@ -20,35 +20,35 @@ package com.geekfoxer.gateway.common;
 public enum ResponseFilterTypeEnum {
 
 
-  /**
-   * 各种限制
-   */
-  UserDefinitionResponseFilter(0, "自定义出请求"), //
-  ClickjackHttpResponseFilter(1, "Clickjack"), //
-  XssHttpRequestFilter(2, "xss防注入攻击");
+    /**
+     * 各种限制
+     */
+    UserDefinitionResponseFilter(0, "自定义出请求"),
+    ClickjackHttpResponseFilter(1, "Clickjack"),
+    XssHttpResponseFilter(2, "xss防注入攻击");
 
-  private int filterOrder;
-  private String filterViewName;
+    private int filterOrder;
+    private String filterViewName;
 
-  ResponseFilterTypeEnum(int filterOrder, String filterViewName) {
-    this.filterOrder = filterOrder;
-    this.filterViewName = filterViewName;
-  }
-
-  public int order() {
-    return filterOrder;
-  }
-
-  public String filterViewName() {
-    return filterViewName;
-  }
-
-  public static ResponseFilterTypeEnum fromTypeName(String typeName) {
-    for (ResponseFilterTypeEnum type : ResponseFilterTypeEnum.values()) {
-      if (type.name().equals(typeName)) {
-        return type;
-      }
+    ResponseFilterTypeEnum(int filterOrder, String filterViewName) {
+        this.filterOrder = filterOrder;
+        this.filterViewName = filterViewName;
     }
-    return null;
-  }
+
+    public int order() {
+        return filterOrder;
+    }
+
+    public String filterViewName() {
+        return filterViewName;
+    }
+
+    public static ResponseFilterTypeEnum fromTypeName(String typeName) {
+        for (ResponseFilterTypeEnum type : ResponseFilterTypeEnum.values()) {
+            if (type.name().equals(typeName)) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

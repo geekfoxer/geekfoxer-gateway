@@ -106,11 +106,11 @@
       <el-table-column prop="id" label="ID" align="center" width="60" />
       <el-table-column prop="name" label="名称" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="describe" label="描述" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="url" label="url" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="url" label="url" align="center" />
       <el-table-column prop="httpMethod" label="方法" align="center" width="80" />
-      <el-table-column prop="serviceName" label="请求服务" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="methodName" label="请求方法" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="dubboParamTemplate" label="模板参数" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="serviceName" label="请求服务" align="center" />
+      <el-table-column prop="methodName" label="请求方法" align="center" />
+      <el-table-column prop="dubboParamTemplate" label="模板参数" align="center" />
 
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
@@ -220,7 +220,7 @@ export default {
       const data = Object.assign({}, this.apiTest)
       console.log('请求参数', data)
       testApi(data).then(res => {
-        this.apiTestResult = res.data
+        this.apiTestResult = res.result_rows[0]
         console.log('测试接口获取的信息', res)
       })
     },

@@ -13,17 +13,23 @@
  */
 package com.geekfoxer.sample.dubbo;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.builder.SpringApplicationBuilder;
+
 /**
  *
  * @author pizhihui
  * @date 2019-08-07
  */
-@SpringBootApplication
-public class GeekFoxerDubboSample {
-  public static void main(String[] args) {
-    SpringApplication.run(GeekFoxerDubboSample.class, args);
-
-  }
-}
+//@SpringBootApplication
+//public class GeekFoxerDubboSample {
+//  public static void main(String[] args) {
+//    SpringApplication.run(GeekFoxerDubboSample.class, args);
+////      new SpringApplicationBuilder(GeekFoxerDubboSample.class)
+////              .web(false) // 非web容器启动
+////              .run(args);
+//
+//
+//  }
+//}

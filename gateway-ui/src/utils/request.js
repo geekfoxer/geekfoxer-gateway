@@ -49,8 +49,9 @@ service.interceptors.response.use(
    */
   response => {
     const data = response.data
-    const retcode = parseInt(data.retcode)
-    data.retcode = retcode
+    const retcode = parseInt(data.ret_code)
+    // data.retcode = retcode
+    console.log('返回的 retcode 是:', retcode)
     switch (retcode) {
       case 0:
         break

@@ -41,62 +41,62 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractCommonFilter {
 
-  protected static final PathMatcher pathMatcher = new AntPathMatcher();
+    protected static final PathMatcher pathMatcher = new AntPathMatcher();
 
-  private static final String LINE_SEPARATOR_UNIX = "\n";
+    private static final String LINE_SEPARATOR_UNIX = "\n";
 
-  private static final String LINE_SEPARATOR_WINDOWS = "\r\n";
+    private static final String LINE_SEPARATOR_WINDOWS = "\r\n";
 
-  public abstract String filterName();
+    public abstract String filterName();
 
-  protected List<Pattern> getCommonRule(HttpRequestFilter filterClazz) {
-    ApiAndFilterCacheComponent ruleCache =
-        SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
-    Set<Pattern> compilePatterns = Sets.newHashSet();
-    Set<String> rules = ruleCache.getPubicFilterRule(filterClazz);
-    for (String rule : rules) {
-      String[] rulesSplits = new String[] {rule};
-      if (filterClazz instanceof BlackCookieHttpRequestFilter
-          || filterClazz instanceof URLParamHttpRequestFilter
-          || filterClazz instanceof BlackURLHttpRequestFilter) {
-        if (StringUtils.contains(rule, LINE_SEPARATOR_UNIX)) {
-          rulesSplits = StringUtils.split(rule, LINE_SEPARATOR_UNIX);
-        } else if (StringUtils.contains(rule, LINE_SEPARATOR_WINDOWS)) {
-          rulesSplits = StringUtils.split(rule, LINE_SEPARATOR_UNIX);
+    protected List<Pattern> getCommonRule(HttpRequestFilter filterClazz) {
+        ApiAndFilterCacheComponent ruleCache =
+                SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
+        Set<Pattern> compilePatterns = Sets.newHashSet();
+        Set<String> rules = ruleCache.getPubicFilterRule(filterClazz);
+        for (String rule : rules) {
+            String[] rulesSplits = new String[]{rule};
+            if (filterClazz instanceof BlackCookieHttpRequestFilter
+                    || filterClazz instanceof URLParamHttpRequestFilter
+                    || filterClazz instanceof BlackURLHttpRequestFilter) {
+                if (StringUtils.contains(rule, LINE_SEPARATOR_UNIX)) {
+                    rulesSplits = StringUtils.split(rule, LINE_SEPARATOR_UNIX);
+                } else if (StringUtils.contains(rule, LINE_SEPARATOR_WINDOWS)) {
+                    rulesSplits = StringUtils.split(rule, LINE_SEPARATOR_UNIX);
+                }
+            }
+            for (String rulesSplit : rulesSplits) {
+                try {
+                    Pattern compilePattern = Pattern.compile(rulesSplit);
+                    compilePatterns.add(compilePattern);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
         }
-      }
-      for (String rulesSplit : rulesSplits) {
-        try {
-          Pattern compilePattern = Pattern.compile(rulesSplit);
-          compilePatterns.add(compilePattern);
-        } catch (Throwable e) {
-          e.printStackTrace();
-        }
-      }
+        return Lists.newArrayList(compilePatterns);
     }
-    return Lists.newArrayList(compilePatterns);
-  }
 
-  protected Map<String, Set<FilterDO>> getUrlRule(AbstractCommonFilter filterClazz) {
-    ApiAndFilterCacheComponent ruleCache =
-        SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
-    Map<String, Set<FilterDO>> rules = ruleCache.getUrlFilterRule(filterClazz);
-    return rules;
-  }
+    protected Map<String, Set<FilterDO>> getUrlRule(AbstractCommonFilter filterClazz) {
+        ApiAndFilterCacheComponent ruleCache =
+                SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
+        Map<String, Set<FilterDO>> rules = ruleCache.getUrlFilterRule(filterClazz);
+        return rules;
+    }
 
-  protected String getUserRule(String className, Long filteId) {
-    ApiAndFilterCacheComponent ruleCache =
-        SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
-    String rule = ruleCache.getUserRule(className, filteId);
-    return rule;
-  }
+    protected String getUserRule(String className, Long filteId) {
+        ApiAndFilterCacheComponent ruleCache =
+                SpringContextHolder.getBean(ApiAndFilterCacheComponent.class);
+        String rule = ruleCache.getUserRule(className, filteId);
+        return rule;
+    }
 
-  protected HttpResponse createResponse(HttpResponseStatus httpResponseStatus,
-                                        HttpRequest originalRequest, String... reason) {
-    return FilterUtil.createResponse(httpResponseStatus, originalRequest, reason);
-  }
+    protected HttpResponse createResponse(HttpResponseStatus httpResponseStatus,
+                                          HttpRequest originalRequest, String... reason) {
+        return FilterUtil.createResponse(httpResponseStatus, originalRequest, reason);
+    }
 
-  protected void writeFilterLog(Class<?> type, String reason, Throwable... cause) {
-    FilterUtil.writeFilterLog(type, reason, cause);
-  }
+    protected void writeFilterLog(Class<?> type, String reason, Throwable... cause) {
+        FilterUtil.writeFilterLog(type, reason, cause);
+    }
 }

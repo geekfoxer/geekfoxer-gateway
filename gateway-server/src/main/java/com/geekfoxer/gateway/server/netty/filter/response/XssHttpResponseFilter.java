@@ -32,56 +32,54 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import java.io.IOException;
 
 /**
- * ClassName:XssHttpRequestFilter <br/>
- * 
+ * ClassName:XssHttpResponseFilter <br/>
+ *
  * @author liushiming
- * @version
- * @since JDK 10
  * @see
+ * @since JDK 10
  */
 public class XssHttpResponseFilter extends HttpResponseFilter {
 
-  private org.owasp.validator.html.Policy policy;
+    private org.owasp.validator.html.Policy policy;
 
-  public XssHttpResponseFilter() {
-    try {
-      Resource[] resources =
-          new PathMatchingResourcePatternResolver().getResources("classpath*:antisamy.xml");
-      for (Resource resource : resources) {
-        policy = org.owasp.validator.html.Policy.getInstance(resource.getURL());
-      }
-    } catch (IOException | PolicyException e) {
-      e.printStackTrace();
+    public XssHttpResponseFilter() {
+        try {
+            Resource[] resources =
+                    new PathMatchingResourcePatternResolver().getResources("classpath*:antisamy.xml");
+            for (Resource resource : resources) {
+                policy = org.owasp.validator.html.Policy.getInstance(resource.getURL());
+            }
+        } catch (IOException | PolicyException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
-
-  }
-
-  @Override
-  public HttpResponse doFilter(NettyHttpServletRequest servletRequest, HttpResponse httpResponse) {
-    if (policy != null) {
-      FullHttpResponse fullHttpResonse = (FullHttpResponse) httpResponse;
-      ByteBuf responseBuffer = fullHttpResonse.content();
-      String responseStr = responseBuffer.toString(CharsetUtil.UTF_8);
-      AntiSamy antiSamy = new AntiSamy();
-      try {
-        CleanResults cleanresult = antiSamy.scan(responseStr, policy);
-        ByteBuf bodyContent = Unpooled.copiedBuffer(cleanresult.getCleanHTML(), CharsetUtil.UTF_8);
-        fullHttpResonse.content().clear().writeBytes(bodyContent);
-        HttpUtil.setContentLength(fullHttpResonse, bodyContent.readerIndex());
-      } catch (ScanException | PolicyException e) {
-        e.printStackTrace();
-      }
-      return fullHttpResonse;
+    @Override
+    public HttpResponse doFilter(NettyHttpServletRequest servletRequest, HttpResponse httpResponse) {
+        if (policy != null) {
+            FullHttpResponse fullHttpResonse = (FullHttpResponse) httpResponse;
+            ByteBuf responseBuffer = fullHttpResonse.content();
+            String responseStr = responseBuffer.toString(CharsetUtil.UTF_8);
+            AntiSamy antiSamy = new AntiSamy();
+            try {
+                CleanResults cleanresult = antiSamy.scan(responseStr, policy);
+                ByteBuf bodyContent = Unpooled.copiedBuffer(cleanresult.getCleanHTML(), CharsetUtil.UTF_8);
+                fullHttpResonse.content().clear().writeBytes(bodyContent);
+                HttpUtil.setContentLength(fullHttpResonse, bodyContent.readerIndex());
+            } catch (ScanException | PolicyException e) {
+                e.printStackTrace();
+            }
+            return fullHttpResonse;
+        }
+        return httpResponse;
     }
-    return httpResponse;
-  }
 
-  @Override
-  public ResponseFilterTypeEnum filterType() {
-    return ResponseFilterTypeEnum.XssHttpRequestFilter;
-  }
-
+    @Override
+    public ResponseFilterTypeEnum filterType() {
+        return ResponseFilterTypeEnum.XssHttpResponseFilter;
+    }
 
 
 }

@@ -36,7 +36,7 @@ export function testApi(params) {
 
 export function deleteApiInfo(id) {
   return request({
-    url: '',
+    url: '/gateway/api/remove',
     method: 'POST',
     params: { 'id': id }
   })

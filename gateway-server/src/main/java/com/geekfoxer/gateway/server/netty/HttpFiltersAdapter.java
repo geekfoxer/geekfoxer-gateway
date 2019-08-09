@@ -79,8 +79,7 @@ public class HttpFiltersAdapter {
     public HttpObject proxyToClientResponse(HttpObject httpObject) {
         if (httpObject instanceof HttpResponse) {
             HttpResponse serverResponse = (HttpResponse) httpObject;
-            logger.info("server response code:" + serverResponse.status().code() + " reason:"
-                    + serverResponse.status().toString());
+            logger.info("server response code: {}, reason: {}", serverResponse.status().code(), serverResponse.status().toString());
             HttpResponse response =
                     HttpResponseFilterChain.responseFilterChain().doFilter(serveletRequest, serverResponse);
             if (response != null) {
@@ -144,6 +143,7 @@ public class HttpFiltersAdapter {
         HttpResponse httpResponse =
                 new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, httpResponseStatus);
         httpResponse.headers().add(httpHeaders);
+
         return httpResponse;
     }
 

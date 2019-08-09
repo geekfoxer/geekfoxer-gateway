@@ -37,6 +37,8 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -48,9 +50,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author liushiming
- * @version DynamicDubboClient.java, v 0.0.1 2018年1月29日 下午2:38:28 liushiming
+ * @author pizhihui
+ * @date 2019-08-08
  */
+@Slf4j
 public class DynamicDubboClient extends MicroserviceDynamicClient {
 
     private final ApplicationConfig applicationConfig;
@@ -113,7 +116,7 @@ public class DynamicDubboClient extends MicroserviceDynamicClient {
     private String doDataMapping(final String templateKey,
                                  final NettyHttpServletRequest servletRequest) throws TemplateNotFoundException,
             MalformedTemplateNameException, ParseException, IOException, TemplateException {
-        Map<String, Object> templateContext = new HashMap<String, Object>();
+        Map<String, Object> templateContext = new HashMap<>();
         BodyMapping body = new BodyMapping(servletRequest);
         body.shouldReplace();
         templateContext.put("header", new HeaderMapping(servletRequest));
@@ -129,9 +132,9 @@ public class DynamicDubboClient extends MicroserviceDynamicClient {
                                                      final NettyHttpServletRequest servletRequest) throws TemplateNotFoundException,
             MalformedTemplateNameException, ParseException, IOException, TemplateException {
         String outPutJson = this.doDataMapping(templateKey, servletRequest);
-        Map<String, String> dubboParamters =
-                JSON.parseObject(outPutJson, new TypeReference<HashMap<String, String>>() {
-                });
+        log.info("【网关】请求参数: {}", outPutJson);
+        Map<String, String> dubboParamters = JSON.parseObject(outPutJson, new TypeReference<HashMap<String, String>>() {
+        });
         List<String> type = Lists.newArrayList();
         List<Object> value = Lists.newArrayList();
         for (Map.Entry<String, String> entry : dubboParamters.entrySet()) {
@@ -162,7 +165,7 @@ public class DynamicDubboClient extends MicroserviceDynamicClient {
             final String methodName = rpcDo.getMethodName();
             final String group = rpcDo.getServiceGroup();
             final String version = rpcDo.getServiceVersion();
-            ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
+            ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
             reference.setApplication(applicationConfig);
             reference.setRegistry(registryConfig);
             reference.setInterface(serviceName);
@@ -175,8 +178,11 @@ public class DynamicDubboClient extends MicroserviceDynamicClient {
             if (null == genericService) {
                 throw new IllegalArgumentException("未获取 dubbo 的服务错误, 请检测zk注册服务");
             }
+            // 处理模板
             String templateKey = this.cacheTemplate(rpcDo);
+            // 转换为dubbo的参数形式
             Pair<String[], Object[]> typeAndValue = this.transformerData(templateKey, servletRequest);
+            // dubbo的泛化调用
             Object response = genericService.$invoke(methodName, typeAndValue.getLeft(), typeAndValue.getRight());
             return JSON.toJSONString(response);
         } catch (Throwable e) {
