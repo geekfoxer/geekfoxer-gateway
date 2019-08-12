@@ -56,8 +56,10 @@ public class DubboTransformHttpRequestFilter extends HttpRequestFilter {
         if (index > -1) {
             uri = uri.substring(0, index);
         }
+        assert routeRuleCache != null;
         ApiRpcDO rpc = routeRuleCache.getRpcRoute(uri);
-        if (rpc != null && rpc.getDubboParamTemplate() != null && dubboClient != null) {
+        // if (rpc != null && rpc.getDubboParamTemplate() != null && dubboClient != null) {
+        if (rpc != null && dubboClient != null) {
             // 调用dubbo泛化,返回dubbo接口值
             String jsonOutput = dubboClient.doRpcRemoteCall(rpc, servletRequest);
             log.info("【获取到的Dubbo数据】: {}", jsonOutput);

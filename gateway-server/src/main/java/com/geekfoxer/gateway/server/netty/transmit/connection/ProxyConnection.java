@@ -36,6 +36,7 @@ import static com.geekfoxer.gateway.server.netty.transmit.ConnectionState.NEGOTI
 
 public abstract class ProxyConnection<I extends HttpObject>
         extends SimpleChannelInboundHandler<Object> {
+
     public final ProxyConnectionLogger LOG = new ProxyConnectionLogger(this);
 
     public final HttpProxyServer proxyServer;

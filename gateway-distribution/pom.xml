@@ -37,6 +37,8 @@
                             <tasks>
                                 <copy file="../gateway-ops/target/gateway-ops-${project.version}.jar"
                                       tofile="target/gateway-ops-${project.version}.jar"/>
+                                <copy file="../gateway-server/target/gateway-server-${project.version}.jar"
+                                      tofile="target/gateway-server-${project.version}.jar"/>
                             </tasks>
                         </configuration>
                         <goals>

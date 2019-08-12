@@ -77,7 +77,7 @@ public class ApiController {
     @PostMapping("test")
     public String testApi(TestApiQuery testApiQuery) {
 
-        String url = "http://127.0.0.1:8899/" + testApiQuery.getUri();
+        String url = "http://127.0.0.1:8899" + testApiQuery.getUri();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");

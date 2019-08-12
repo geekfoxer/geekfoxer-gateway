@@ -153,7 +153,7 @@ public class DynamicDubboClient extends MicroserviceDynamicClient {
         }
         String[] typeArray = new String[type.size()];
         type.toArray(typeArray);
-        return new ImmutablePair<String[], Object[]>(typeArray, value.toArray());
+        return new ImmutablePair<>(typeArray, value.toArray());
     }
 
 

@@ -62,7 +62,6 @@ public class HttpProxyServer {
     private final ChannelGroup allChannels =
             new DefaultChannelGroup("HTTP-Proxy-Server", GlobalEventExecutor.INSTANCE);
     private final Thread jvmShutdownHook = new Thread(new Runnable() {
-
         @Override
         public void run() {
             abort();
@@ -314,30 +313,27 @@ public class HttpProxyServer {
 
         ChannelInitializer<Channel> initializer = new ChannelInitializer<Channel>() {
             @Override
-            protected void initChannel(Channel ch) throws Exception {
+            protected void initChannel(Channel ch) {
                 new ClientToProxyConnection(HttpProxyServer.this, ch.pipeline(), globalTrafficShapingHandler);
-            }
-
-            ;
+            };
         };
 
-        serverBootstrap.channelFactory(new ChannelFactory<ServerChannel>() {
-            @Override
-            public ServerChannel newChannel() {
-                return new NioServerSocketChannel();
-            }
-        });
+        serverBootstrap.channel(NioServerSocketChannel.class);
+
+//        serverBootstrap.channelFactory(new ChannelFactory<ServerChannel>() {
+//            @Override
+//            public ServerChannel newChannel() {
+//                return new NioServerSocketChannel();
+//            }
+//        });
 
         serverBootstrap.childHandler(initializer);
 
         ChannelFuture future = serverBootstrap
                 .bind(requestedAddress)
-                .addListener(new ChannelFutureListener() {
-                    @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {
-                        if (future.isSuccess()) {
-                            registerChannel(future.channel());
-                        }
+                .addListener((ChannelFutureListener) future1 -> {
+                    if (future1.isSuccess()) {
+                        registerChannel(future1.channel());
                     }
                 }).awaitUninterruptibly();
 

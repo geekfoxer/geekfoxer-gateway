@@ -12,6 +12,8 @@
     <bean id="sqlSessionFactory" name="sqlSessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean" primary="true">
         <property name="dataSource" ref="h2DataSource" />
         <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="typeAliasesPackage" value="com.geekfoxer.gateway.dao.domain"/>
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" primary="true">
@@ -20,17 +22,28 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
+    <!--<jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:/sql/schema.sql" />
+        <jdbc:script location="classpath:/sql/data.sql" />
+    </jdbc:embedded-database>-->
 
     <bean id="h2DataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close" primary="true">
-        <property name="url" value="jdbc:h2:~/gateway" />
+        <property name="url" value="jdbc:h2:file:./data/DatewayDB;MODE=MySql;DB_CLOSE_DELAY=-1" />
         <property name="driverClassName" value="org.h2.Driver"/>
-        <!--<property name="username" value="${fruit_db_username}" />-->
-        <!--<property name="password" value="${fruit_db_password}" />-->
-        <!--<property name="initialSize" value="${jdbc_initialPoolSize}" />-->
-        <!--<property name="minIdle" value="${jdbc_minPoolSize}" />-->
-        <!--<property name="maxActive" value="${jdbc_maxPoolSize}" />-->
-        <property name="validationQuery" value="select count(1)" />
+        <property name="username" value="sa" />
+        <property name="password" value="sa" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="0" />
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="20" />
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="20" />
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="0" />
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000" />
+        <!--<property name="validationQuery" value="select count(1)" />
         <property name="testWhileIdle" value="true" />
         <property name="testOnBorrow" value="false" />
         <property name="testOnReturn" value="false" />
@@ -38,7 +51,7 @@
             <props>
                 <prop key="druid.stat.logSlowSql">true</prop>
             </props>
-        </property>
+        </property>-->
         <!--<property name="proxyFilters">-->
             <!--<list>-->
                 <!--<ref bean="stat-filter" />-->
