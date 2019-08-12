@@ -1,7 +1,7 @@
 
 ### 数据库选择
  * 在`gateway-ops/src/main/resource/application.properties`中的`gateway_db_type`可以指定db类型,目前支持h2和MySQL类型.
- * 默认使用h2
+ * 默认使用h2, 访问地址: http://127.0.0.1:8096/h2
  
 ### 前端部分
 - 使用[vue.js](https://vuejs.org)作为前端框架
@@ -13,6 +13,6 @@
 3. 构建
     > - `mvn clean package -DskipTests`
 4. 启动
-    * `cd gateway-distribution/target;  java -jar gateway-ops-1.0-SNAPSHOT.jar; java -jar gateway-ops-1.0-SNAPSHOT.jar`
+    * `cd gateway-distribution/target;  java -jar gateway-server-1.0-SNAPSHOT.jar; java -jar gateway-ops-1.0-SNAPSHOT.jar`
 5. 访问 `http://127.0.0.1:8096`
 
