@@ -22,6 +22,11 @@
             <artifactId>gateway-ops</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.geekfoxer.gateway</groupId>
+            <artifactId>gateway-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
