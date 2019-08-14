@@ -38,6 +38,12 @@ Vue.component('v-chart', ECharts)
 
 Vue.config.productionTip = false
 
+import * as filters from './filters' // global filters
+// 注册全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 new Vue({
   el: '#app',
   router,

@@ -106,7 +106,11 @@
       <el-table-column prop="id" label="ID" align="center" width="60" />
       <el-table-column prop="name" label="名称" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="describe" label="描述" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="url" label="url" align="center" />
+      <el-table-column prop="url" label="url" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.url | formatGatewayUrl }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="httpMethod" label="方法" align="center" width="80" />
       <el-table-column prop="serviceName" label="请求服务" align="center" />
       <el-table-column prop="methodName" label="请求方法" align="center" />
