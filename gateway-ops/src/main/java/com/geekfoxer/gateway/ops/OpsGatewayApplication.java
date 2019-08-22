@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 import java.sql.Connection;
@@ -47,6 +48,7 @@ public class OpsGatewayApplication implements CommandLineRunner {
             ClassPathResource rc = new ClassPathResource("sql/schema.sql");
             EncodedResource er = new EncodedResource(rc, "utf-8");
             ScriptUtils.executeSqlScript(connection, er);
+
         }
 
     }
