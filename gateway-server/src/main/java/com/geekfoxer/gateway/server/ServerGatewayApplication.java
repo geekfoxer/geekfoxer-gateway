@@ -4,10 +4,10 @@ import com.geekfoxer.gateway.server.netty.HttpFiltersSourceAdapter;
 import com.geekfoxer.gateway.server.netty.HttpProxyServer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -20,7 +20,11 @@ import org.springframework.context.annotation.ImportResource;
 public class ServerGatewayApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServerGatewayApplication.class, args);
+//        SpringApplication.run(ServerGatewayApplication.class, args);
+        // 手动指定非 web 方式启动
+        new SpringApplicationBuilder(ServerGatewayApplication.class)
+                .web(false)
+                .run(args);
     }
 
     @Value("${server.port}")
