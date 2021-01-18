@@ -32,13 +32,13 @@ public class ZKDemo {
             }
         });
         System.out.println(zk);
-        List<String> list = zk.getChildren("/fql/db", false);
+        List<String> list = zk.getChildren("", false);
         System.out.println(list.toString());
-        byte[] redis = zk.getData("/fsof/com.fenqile.bigdata.strategy.config.service.ShuntVersionAdminService/providers", false, new Stat());
+        byte[] redis = zk.getData("", false, new Stat());
 
 
 
-        List<String> children = zk.getChildren("/fsof/com.fenqile.bigdata.strategy.config.service.ShuntVersionAdminService/providers", false);
+        List<String> children = zk.getChildren("", false);
         children.forEach(v -> {
             try {
                 System.out.println("xxxxxx: " + URLDecoder.decode(v, "UTF-8"));
@@ -46,9 +46,9 @@ public class ZKDemo {
                 e.printStackTrace();
             }
         });
-//        byte[] logDB = zk.getData("/pre/fql/db/LogDB", false, new Stat());
-//        byte[] datasysDB = zk.getData("/pre/fql/db/DatasysDB", false, new Stat());
-//        byte[] monitorDB = zk.getData("/pre/fql/redis/BI_Data_Cache", false, new Stat());
+//        byte[] logDB = zk.getData("", false, new Stat());
+//        byte[] datasysDB = zk.getData("", false, new Stat());
+//        byte[] monitorDB = zk.getData("", false, new Stat());
 
 //        System.out.println(new String(redis));
 //        list.forEach(path -> System.out.println(path));

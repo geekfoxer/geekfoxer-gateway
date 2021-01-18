@@ -57,7 +57,7 @@ module.exports = {
         }
       }
     //   '/api': { // 测试环境
-    //     target: 'http://fql_api.oa.fenqile.com/', // 源地址
+    //     target: '', // 源地址
     //     changeOrigin: true, // 改变源
     //     pathRewrite: {
     //       '^/api': '' // 路径重写

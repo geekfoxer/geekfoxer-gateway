@@ -19,9 +19,9 @@ public class CuratorDemo {
                 60000, 15000, retryPolicy);
         client.start();
 
-        byte[] bytes = client.getData().forPath("/dev/fql/db/LogDB");
+        byte[] bytes = client.getData().forPath("");
         System.out.println(new String(bytes));
-        System.out.println(new String(client.getData().forPath("/dev/fql/db/MonitorDB")));
+        System.out.println(new String(client.getData().forPath("")));
 
 
 

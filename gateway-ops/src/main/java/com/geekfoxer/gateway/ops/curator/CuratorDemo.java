@@ -21,14 +21,14 @@ public class CuratorDemo {
 
     public static void main(String[] args) throws Exception {
 
-        String monitorDBPath = "/pre/fql/db/MonitorDB";
-        String monitorDBData = "{\"MonitorDB.master.ip\":\"127.0.0.1\",\"MonitorDB.master.port\":\"3306\",\"MonitorDB.master.username\":\"root\",\"MonitorDB.master.password\":\"root\",\"MonitorDB.slave.ip\":\"127.0.0.1\",\"MonitorDB.slave.port\":\"3306\",\"MonitorDB.slave.username\":\"root\",\"MonitorDB.slave.password\":\"root\"}\n";
+        String monitorDBPath = "";
+        String monitorDBData = "";
 
-        String ldbankDBPath = "/pre/fql/db/LdbankDB";
-        String ldbankDBData = "{\"LdbankDB.master.ip\":\"127.0.0.1\",\"LdbankDB.master.port\":\"3306\",\"LdbankDB.master.username\":\"root\",\"LdbankDB.master.password\":\"root\",\"LdbankDB.slave.ip\":\"127.0.0.1\",\"LdbankDB.slave.port\":\"3306\",\"LdbankDB.slave.username\":\"root\",\"LdbankDB.slave.password\":\"root\"}";
+        String ldbankDBPath = "";
+        String ldbankDBData = "";
 
-        String redisPath = "/pre/fql/redis/Data_Fintech_Cache";
-        String redisData = "{\"Data_Fintech_Cache.master.ip\":\"127.0.0.1\",\"Data_Fintech_Cache.master.port\":\"6379\",\"Data_Fintech_Cache.master.password\":\"\",\"Data_Fintech_Cache.slave.ip\":\"127.0.0.1\",\"Data_Fintech_Cache.slave.port\":\"6379\",\"Data_Fintech_Cache.slave.password\":\"\"}";
+        String redisPath = "";
+        String redisData = "";
 
         CuratorFramework client = new CuratorConnect().client;
 
